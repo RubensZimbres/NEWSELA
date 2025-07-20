@@ -90,8 +90,15 @@ python3 train.py
 This script will process your data, train the model, and save the trained index to `models/curriculum_recommender/`.
 
 ### Making Predictions
+
+Download the weights from my Google Drive: [Model Weights](https://drive.google.com/file/d/1RjbhQ877LzMz4Obq6nSUFemfHvhOn0PZ/view?usp=sharing "Model Weights")
+
 ```bash
-python3 predict_template.py
+python3 predict_template.py --topic "Calculus and integrals" --neighbors 10
+```
+
+```bash
+python3 predict_template.py --topic "Physics and properties of the matter" --neighbors 5
 ```
 
 The prediction script demonstrates how to load the trained model and generate recommendations for new topics.

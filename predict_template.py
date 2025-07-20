@@ -1,12 +1,11 @@
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
+import argparse
 from typing import List, Optional
 import tensorflow as tf
 from pydantic import BaseModel
 import pandas as pd
-
-
 
 class TopicPredictionRequest(BaseModel):
     content_text: Optional[str] = None
@@ -46,7 +45,7 @@ class TopicPredictor:
             print("Warning: `topic_title` is missing. Predictions may be poor.")
             return []
 
-        raw_query_text = (request.topic_title or "") + " " + (request.topic_description or "")
+        raw_query_text = (request.topic_title or "")
         processed_query_text = self._preprocess_text(raw_query_text)
 
         _, recommended_content_ids = self.model(
@@ -55,18 +54,52 @@ class TopicPredictor:
 
         predictions = [cid.decode('utf-8') for cid in recommended_content_ids[0].numpy()]
 
-        return predictions[:top_k]
+        return predictions[:int(top_k)]
+
+
+def parse_arguments():
+    """
+    Sets up and parses command-line arguments for the script.
+
+    This function creates an argument parser that allows users to specify
+    the topic they want predictions for, making the script more flexible
+    and user-friendly.
+    """
+    parser = argparse.ArgumentParser(
+        description='Generate content recommendations for a given topic',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter  # Shows default values in help
+    )
+
+    parser.add_argument(
+        '--topic',
+        type=str,
+        default='Calculus',
+        help='The topic title to generate recommendations for'
+    )
+
+    parser.add_argument(
+        '--neighbors',
+        type=str,
+        default='5',
+        help='The K number of recommendations'
+    )
+
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
+    args = parse_arguments()
     predictor = TopicPredictor()
+
     if predictor.model:
         sample_request = TopicPredictionRequest(
-            topic_title="Calculus",
-            topic_description="derivatives and integrals"
+            topic_title=args.topic,  # Now uses the command-line argument
+
         )
-        recommendations = predictor.predict(sample_request, top_k=10)
-        print(f"✅ Top 5 recommendations for topic '{sample_request.topic_title}':")
+
+        recommendations = predictor.predict(sample_request, top_k=args.neighbors)
+
+        print(f"✅ Top 10 recommendations for topic '{sample_request.topic_title}':")
         print(recommendations)
         print(f"Number of recommendations: {len(recommendations)}")
 
