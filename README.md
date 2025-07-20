@@ -6,7 +6,7 @@ This project implements a **Two-Tower Neural Recommendation System** using Tenso
 
 The two-tower architecture consists of a **Query Tower** that processes topic information and a **Candidate Tower** that processes content identifiers. During training, the model learns to position related topic-content pairs close together in this vector space while pushing unrelated pairs apart. This creates a powerful semantic understanding that can generalize to new, unseen topic descriptions.
 
-This solution and idea was obtained from an article I wrote in August of 2022: [Train and Deploy Two Towers Recommender](https://medium.com/@rubenszimbres/train-and-deploy-google-clouds-two-towers-recommender-3ae5c29891af "Train and Deploy Two Towers Recommender")
+This solution and idea was obtained from an article I wrote in August of 2022: [Train and Deploy Two Towers Recommender](https://medium.com/@rubenszimbres/train-and-deploy-google-clouds-two-towers-recommender-3ae5c29891af "Train and Deploy Two Towers Recommender"). The algorithm maps contents to topics. To map topics to contents, it is necessary to exchange the Query and Candidate Towers.
 
 ### Why This Approach Works
 
@@ -62,9 +62,11 @@ The "@ K=4" notation indicates that we evaluate based on the top 4 recommendatio
 
 ## What Would I Have Done With More Time?
 
-**Enhanced Feature Engineering**: With additional time, I would explore more sophisticated text preprocessing techniques, including TF-IDF weighting for topic descriptions and experimentation with pre-trained language models like BERT for creating initial word embeddings.
+**Implementation of Ranking Mechanism**: The current model handles only retrieval. An essential feature that must be implemented is Ranking. As you will see in training, accuracy for Top-10 is higher than 75%. With a proper Ranking algorithm, the F2 Score of this solution will improve.
 
-**Cross-Validation and Hyperparameter Optimization**: The current model uses fixed hyperparameters (768-dimensional embeddings, Adagrad optimizer with 0.077 learning rate). A comprehensive grid search or Bayesian optimization approach could potentially improve performance significantly. Also, adding more layers to the Query and Candidate Towers cn improve results.
+**Hyperparameter Optimization**: The current model uses fixed hyperparameters (768-dimensional embeddings, Adagrad optimizer with 0.077 learning rate). A comprehensive grid search or Bayesian optimization approach could potentially improve performance significantly. Also, adding more layers to the Query and Candidate Towers may improve results.
+
+**Enhanced Feature Engineering**: With additional time, I would explore more text preprocessing techniques, including experimentation with pre-trained language models like BERT/Gemini for creating initial word embeddings.
 
 **Multi-Modal Learning**: Educational content often includes images, videos, and interactive elements. Expanding the model to incorporate visual and multimedia features could significantly improve recommendation relevance, especially for visual subjects like mathematics and science.
 

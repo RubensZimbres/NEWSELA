@@ -1,5 +1,9 @@
+# If necessary, add this before imports: For reference: https://github.com/tensorflow/recommenders/issues/712
+#import os
+#os.environ['TF_USE_LEGACY_KERAS'] = '1'
+
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #0
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 import pandas as pd
 import numpy as np
