@@ -51,7 +51,6 @@ The model's performance is evaluated using the **Mean F2 Score @ K=4**, which pr
 
 <img src="img/screenshot.png" alt="F2 Score Screenshot" width="600">
 
-This F2 score is equivalent to a bronze medal on the Kaggle Competition.
 
 ### Understanding the F2 Score
 
